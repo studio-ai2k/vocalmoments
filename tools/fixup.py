@@ -116,6 +116,13 @@ ROOTREL_RE = re.compile(r"(?<=[\"'(\s,=])(/wp-(?:content|includes)/[^\"'\s)<>&\\
 QUERY_RE = re.compile(
     r"([\w\-./%]+\.(?:css|js|png|jpe?g|gif|webp|svg|woff2?|ttf|eot|otf|ico))(?:%3F|\?)[\w-]+=[^\"'\s)<>]*?(?=[\"'\s)<>]|&quot;|$)"
 )
+# wget's own encoded "?" (%3F), and anything in CSS files, can't be JavaScript: strip any query there.
+QUERY_LOOSE_RE = re.compile(
+    r"([\w\-./%]+\.(?:css|js|png|jpe?g|gif|webp|svg|woff2?|ttf|eot|otf|ico))%3F[^\"'\s)<>]*?(?=[\"'\s)<>#]|&quot;|$)"
+)
+QUERY_CSS_RE = re.compile(
+    r"(\.(?:png|jpe?g|gif|webp|svg|woff2?|ttf|eot|otf|ico))\?[^\"'\s)<>#]*"
+)
 
 JUNK = [
     r"<link[^>]+rel=['\"](?:EditURI|wlwmanifest|shortlink|pingback|https://api\.w\.org/)['\"][^>]*>\s*",
@@ -146,7 +153,10 @@ def process(fpath):
         return
     orig = text
     if not fpath.endswith(".js"):
+        text = QUERY_LOOSE_RE.sub(r"\1", text)
         text = QUERY_RE.sub(r"\1", text)
+    if fpath.endswith(".css"):
+        text = QUERY_CSS_RE.sub(r"\1", text)
     text = ABS_ESC_RE.sub(lambda m: resolve((m.group(1) or "\\/").replace("\\/", "/"), fpath, True) or m.group(0), text)
     text = ABS_RE.sub(lambda m: resolve(m.group(1) or "/", fpath, False) or m.group(0), text)
     if fpath.endswith((".html", ".css")):
