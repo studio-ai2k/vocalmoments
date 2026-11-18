@@ -1,0 +1,59 @@
+Assets fetched after crawl: 23
+  + /wp-content/plugins/burst-statistics//assets/js/build/burst-goals.js
+  + /wp-content/plugins/js_composer/assets/css/vc_lte_ie9.min.css
+  + /wp-content/plugins/js_composer/assets/js/vendors/woocommerce-add-to-cart.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.actions.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.carousel.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.kenburn.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.layeranimation.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.migration.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.navigation.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.parallax.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.slideanims.min.js
+  + /wp-content/plugins/revslider/public/assets/js/extensions/revolution.extension.video.min.js
+  + /wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js
+  + /wp-content/uploads/2015/09/2019-03-15-19.54.18.jpg
+  + /wp-content/uploads/2015/09/Dr-Herlitz-e1554529865713.png
+  + /wp-content/uploads/2019/03/2019-03-15-19.46.03.jpg
+  + /wp-content/uploads/2019/04/cropped-logo-Vocal-moments-black-bg-1-3-1-1-270x270.jpg
+  + /wp-content/uploads/2019/04/johannes-copie.jpg
+  + /wp-content/uploads/2019/04/rauch-bariton-1920-e1554735094849.jpg
+  + /wp-content/uploads/2026/03/wolfgang-villa-ohne-titel-100x50.jpg
+  + /wp-includes/css/classic-themes.min.css
+  + /wp-includes/js/wp-emoji-loader.min.js
+  + /wp-includes/js/wp-emoji-release.min.js
+
+Assets that failed to download: 1
+  ! /wp-content/themes/tm-heli/assets/css/output/owl.video.play.png  (HTTP Error 404: Not Found)
+
+Page links not in the copy (left pointing at the live site): 30
+  ? /a-little-journey-2/feed/
+  ? /a-little-journey/feed/
+  ? /author/admin/
+  ? /beautiful-typography-2/feed/
+  ? /beautiful-typography/feed/
+  ? /category/blog/feed/
+  ? /category/uncategorized/feed/
+  ? /daily-inspiration/feed/
+  ? /evaluate-your-product/feed/
+  ? /hello-world-2/feed/
+  ? /new-design-trends/feed/
+  ? /privacy-policy]
+  ? /privacy-policy]For
+  ? /projects/feed/
+  ? /projects/home-portfolio/feed/
+  ? /projects/logos/feed/
+  ? /projects/something/feed/
+  ? /stages-of-the-startup-lifecycle/feed/
+  ? /tag/inspiration/feed/
+  ? /tag/news/feed/
+  ? /testimonials/feed/
+  ? /what-make-a-brand-success/feed/
+  ? /wp-comments-post.php
+  ? /wp-content/*
+  ? /wp-content/plugins/*
+  ? /wp-content/plugins/burst-statistics/endpoint.php
+  ? /wp-content/plugins/revslider/public/assets/js/
+  ? /wp-content/themes/tm-heli-child/*
+  ? /wp-content/themes/tm-heli/*
+  ? /wp-content/uploads/*

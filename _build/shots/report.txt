@@ -1,0 +1,9 @@
+[live] /
+  console: Permissions policy violation: unload is not allowed in this document.
+[static] /
+[static] /about-us/
+[static] /contact-us/
+[static] /imprint/
+[static] /privacy-policy/
+[static] /portfolio/porsche-museum/
+[static] /testimonials/
