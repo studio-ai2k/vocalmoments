@@ -49,7 +49,7 @@ jobs:
         run: |
           mkdir -p out/_build
           cp crawl.log seeds.clean.txt out/_build/ 2>/dev/null || true
-          cp -r extra/. out/ 2>/dev/null || true
+          cp -r extra/. out/ 2>/dev/null && rm -f out/README.md || true
           cd out
           git init -q -b gh-pages
           git config user.name "github-actions[bot]"
