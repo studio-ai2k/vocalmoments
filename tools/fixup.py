@@ -111,8 +111,10 @@ def resolve(path, current_file, escaped):
 ABS_RE = re.compile(r"(?:https?:)?//" + DOMAIN_RE + r"(/[^\"'\s)<>&\\]*)?")
 ABS_ESC_RE = re.compile(r"(?:https?:)?\\/\\/" + DOMAIN_RE + r"((?:\\/[^\"'\s)<>&\\]*)*)")
 ROOTREL_RE = re.compile(r"(?<=[\"'(\s,=])(/wp-(?:content|includes)/[^\"'\s)<>&\\]*)")
+# "file.css?ver=1.2" / "file.css%3Fver=1.2.css" -> "file.css". Only key=value queries on a URL-ish
+# path, and never inside .js files, so JavaScript like `x.css?a:b` is left alone.
 QUERY_RE = re.compile(
-    r"(\.(?:css|js|png|jpe?g|gif|webp|svg|woff2?|ttf|eot|otf|ico))(?:%3F|\?)[^\"'\s)<>]*?(?=[\"'\s)<>]|&quot;|$)"
+    r"([\w\-./%]+\.(?:css|js|png|jpe?g|gif|webp|svg|woff2?|ttf|eot|otf|ico))(?:%3F|\?)[\w-]+=[^\"'\s)<>]*?(?=[\"'\s)<>]|&quot;|$)"
 )
 
 JUNK = [
@@ -128,7 +130,7 @@ JUNK = [
     # WordPress 6.9 emoji loader
     r"<script[^>]+id=['\"]wp-emoji-settings['\"][^>]*>.*?</script>\s*",
     r"<script[^>]+src=['\"][^'\"]*wp-emoji-loader[^'\"]*['\"][^>]*>\s*</script>\s*",
-    r"<script[^>]*>[^<]*wp-emoji-loader[^<]*</script>\s*",
+    r"<script[^>]*>(?:(?!</script>).)*?wp-emoji-(?:settings|loader)(?:(?!</script>).)*</script>\s*",
     # scripts that talk to WordPress or WooCommerce on the server (analytics, cart, order tracking)
     r"<script[^>]+src=['\"][^'\"]*(?:burst-statistics|order-attribution|sourcebuster|add-to-cart|woocommerce-add-to-cart|jquery-blockui|frontend/woocommerce\.min)[^'\"]*['\"][^>]*>\s*</script>\s*",
     r"<script[^>]+id=['\"](?:burst|wc-order-attribution|sourcebuster|wc-add-to-cart|woocommerce)[^'\"]*['\"][^>]*>.*?</script>\s*",
@@ -143,7 +145,8 @@ def process(fpath):
     except UnicodeDecodeError:
         return
     orig = text
-    text = QUERY_RE.sub(r"\1", text)
+    if not fpath.endswith(".js"):
+        text = QUERY_RE.sub(r"\1", text)
     text = ABS_ESC_RE.sub(lambda m: resolve((m.group(1) or "\\/").replace("\\/", "/"), fpath, True) or m.group(0), text)
     text = ABS_RE.sub(lambda m: resolve(m.group(1) or "/", fpath, False) or m.group(0), text)
     if fpath.endswith((".html", ".css")):
