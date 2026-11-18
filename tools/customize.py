@@ -71,5 +71,19 @@ for root, _dirs, files in os.walk(OUT):
             with open(fpath, "w", encoding="utf-8") as f:
                 f.write(s)
 
+# 404 page is served at any missing URL, so its relative links must resolve from the site root.
+p404 = os.path.join(OUT, "404.html")
+if os.path.exists(p404):
+    with open(p404, encoding="utf-8") as f:
+        s = f.read()
+    if "<base " not in s:
+        s = re.sub(r"<head([^>]*)>", r'<head\1>\n<base href="/">', s, count=1)
+    with open(p404, "w", encoding="utf-8") as f:
+        f.write(s)
+
+# Marker the crawler checks before running (see tools/crawl.sh).
+with open(os.path.join(OUT, "static-copy.txt"), "w") as f:
+    f.write("Static copy of the former WordPress site, hosted on GitHub Pages.\n")
+
 print(f"Removed {len(removed)} demo pages, unlinked {stats['unlinked']} links to them, "
       f"replaced {stats['forms']} contact form(s).")
