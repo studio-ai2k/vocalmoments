@@ -125,6 +125,13 @@ JUNK = [
     r"<script[^>]+wp-emoji-release[^>]*></script>\s*",
     r"<style[^>]*>\s*img\.wp-smiley.*?</style>\s*",
     r"<style[^>]+id=['\"]wp-emoji-styles-inline-css['\"][^>]*>.*?</style>\s*",
+    # WordPress 6.9 emoji loader
+    r"<script[^>]+id=['\"]wp-emoji-settings['\"][^>]*>.*?</script>\s*",
+    r"<script[^>]+src=['\"][^'\"]*wp-emoji-loader[^'\"]*['\"][^>]*>\s*</script>\s*",
+    r"<script[^>]*>[^<]*wp-emoji-loader[^<]*</script>\s*",
+    # scripts that talk to WordPress or WooCommerce on the server (analytics, cart, order tracking)
+    r"<script[^>]+src=['\"][^'\"]*(?:burst-statistics|order-attribution|sourcebuster|add-to-cart|woocommerce-add-to-cart|jquery-blockui|frontend/woocommerce\.min)[^'\"]*['\"][^>]*>\s*</script>\s*",
+    r"<script[^>]+id=['\"](?:burst|wc-order-attribution|sourcebuster|wc-add-to-cart|woocommerce)[^'\"]*['\"][^>]*>.*?</script>\s*",
 ]
 JUNK_RE = [re.compile(p, re.S | re.I) for p in JUNK]
 
@@ -150,6 +157,17 @@ def process(fpath):
 
 
 queue = []
+
+# Files loaded at runtime by JavaScript, which no crawler can see in the HTML.
+RS = "/wp-content/plugins/revslider/public/assets/js/extensions/"
+EXTRA_ASSETS = [RS + f"revolution.extension.{n}.min.js" for n in (
+    "actions", "carousel", "kenburn", "layeranimation", "migration",
+    "navigation", "parallax", "slideanims", "video")]
+for a in EXTRA_ASSETS:
+    if not local_file_for(a):
+        attempted.add(a)
+        fetch_asset(a)
+
 for root, _dirs, files in os.walk(OUT):
     for name in files:
         if os.path.splitext(name)[1].lower() in TEXT_EXT:

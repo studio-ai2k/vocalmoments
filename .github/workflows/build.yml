@@ -28,6 +28,13 @@ jobs:
       - name: Clean up and fetch missing assets
         run: python3 tools/fixup.py
 
+      - name: Screenshot live site vs static copy
+        continue-on-error: true
+        run: |
+          pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium > /dev/null
+          python3 tools/shots.py
+
       - name: Publish to gh-pages branch
         run: |
           mkdir -p out/_build
